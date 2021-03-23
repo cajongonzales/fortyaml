@@ -1,11 +1,41 @@
 #include <stdio.h>
+#include <stdlib.h> // atoi, malloc
+#include <string.h> //strcpy
 #include <yaml.h>
-
+#include "uthash.h"
 int yamlEventReader(char *filePath)
 {
- 
-  FILE *fh = fopen(filePath, "r");
+// Hash Table Methods
+  struct my_struct {
+    int id;
+    char name[20];
+    char event_type[20];
+    UT_hash_handle hh;
+  };
+  struct my_struct *yaml_doc = NULL;
+  void add_event(int event_id, char *event_type)
+  {
+    struct my_struct *s;
+    HASH_FIND_INT(yaml_doc, &event_id, s);
+    if (s==NULL) 
+    {
+      s = (struct my_struct*)malloc(sizeof(struct my_struct));
+      s->id = event_id;
+      HASH_ADD_INT(yaml_doc, id, s);
+    }
+    strcpy(s->event_type, event_type);
+  }
+  void delete_all() {
+    struct my_struct *current_doc, *tmp;
+    HASH_ITER(hh, yaml_doc, current_doc, tmp) {
+      HASH_DEL(yaml_doc, current_doc);  /* delete it (users advances to next) */
+      free(current_doc);             /* free it */
+    }
+  }
 
+// LibYAML 
+
+  FILE *fh = fopen(filePath, "r");
   yaml_parser_t parser;
   yaml_event_t  event;   /* New variable */
     /* Initialize parser */
@@ -18,6 +48,8 @@ int yamlEventReader(char *filePath)
   yaml_parser_set_input_file(&parser, fh);
 
   /* START new code */
+  int id=1;
+  char event_type[20];
   do {
     if (!yaml_parser_parse(&parser, &event)) {
        printf("Parser error %d\n", parser.error);
@@ -28,7 +60,10 @@ int yamlEventReader(char *filePath)
     { 
     case YAML_NO_EVENT: puts("No event!"); break;
     /* Stream start/end */
-    case YAML_STREAM_START_EVENT: puts("STREAM START"); break;
+    case YAML_STREAM_START_EVENT: 
+      puts("STREAM START"); 
+      //what event takes place here? log it in the hash?
+      break;
     case YAML_STREAM_END_EVENT:   puts("STREAM END");   break;
     /* Block delimeters */
     case YAML_DOCUMENT_START_EVENT: puts("<b>Start Document</b>"); break;
@@ -41,9 +76,12 @@ int yamlEventReader(char *filePath)
     case YAML_ALIAS_EVENT:
       printf("Got alias (anchor %s)\n", event.data.alias.anchor); 
       break;
-
+      
     case YAML_SCALAR_EVENT:
+      event_type[0] = YAML_SCALAR_EVENT;
       printf("Got scalar (value %s)\n", event.data.scalar.value); 
+      add_event(id++, event_type);
+      printf("YAML_SCALAR_EVENT: %d\n", event_type[0]);
       break;
     }
     if(event.type != YAML_STREAM_END_EVENT)
@@ -54,6 +92,7 @@ int yamlEventReader(char *filePath)
 
   /* Cleanup */
   yaml_parser_delete(&parser);
+  delete_all();
   fclose(fh);
   return 0;
 }
