@@ -1,0 +1,7 @@
+Primary :
+    component_type : volume
+    friction_design_factor : 1.13
+Secondary :
+    non_condensables :
+        - n2
+        - o2
