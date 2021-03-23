@@ -38,8 +38,13 @@ int yamlEventReader(char *filePath)
     case YAML_MAPPING_START_EVENT:  puts("<b>Start Mapping</b>");  break;
     case YAML_MAPPING_END_EVENT:    puts("<b>End Mapping</b>");    break;
     /* Data */
-    case YAML_ALIAS_EVENT:  printf("Got alias (anchor %s)\n", event.data.alias.anchor); break;
-    case YAML_SCALAR_EVENT: printf("Got scalar (value %s)\n", event.data.scalar.value); break;
+    case YAML_ALIAS_EVENT:
+      printf("Got alias (anchor %s)\n", event.data.alias.anchor); 
+      break;
+
+    case YAML_SCALAR_EVENT:
+      printf("Got scalar (value %s)\n", event.data.scalar.value); 
+      break;
     }
     if(event.type != YAML_STREAM_END_EVENT)
       yaml_event_delete(&event);
