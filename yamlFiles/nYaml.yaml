@@ -1,7 +1,13 @@
-Primary :
-    component_type : volume
-    friction_design_factor : 1.13
-Secondary :
-    non_condensables :
-        - n2
-        - o2
+Global: 
+    Primary :
+        component_type : volume
+        friction_design_factor : 1.13
+    Secondary :
+        non_condensables :
+            - n2
+            - o2
+Local:
+    component_type : sngvl
+        component_number : 104
+        friction_design_factor : 1.13
+
