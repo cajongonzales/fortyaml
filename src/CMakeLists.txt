@@ -1,6 +1,6 @@
 add_executable(fortBinding 
 	       main.f90 
-	       yamlEventReader.c
+	       yamlEventReader.cpp
 	       )
 
 target_link_libraries(fortBinding libyaml.a)
