@@ -11,5 +11,6 @@ end interface
 character(kind=c_char, len=*), parameter :: input_file = "../yamlFiles/anchors.yaml" 
 character(kind=c_char, len=*), parameter :: file_path = "../yamlFiles/nYaml.yaml"
 
+call yaml_event_reader(input_file) 
 call yaml_event_reader(file_path) 
 end program 
