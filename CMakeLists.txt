@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
 
-project(FortYamlShackle Fortran C)
+project(FortYamlShackle Fortran C CXX)
 
 include_directories(include)
 add_subdirectory(src)
