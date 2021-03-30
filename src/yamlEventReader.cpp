@@ -33,7 +33,6 @@ int yamlEventReader(char *filePath)
   bool reading_sequence = false;
 
   /* START new code */
-  int level=0;
   do {
     if (!yaml_parser_parse(&parser, &event)) {
        printf("Parser error %d\n", parser.error);
@@ -45,55 +44,36 @@ int yamlEventReader(char *filePath)
     case YAML_NO_EVENT: puts("No event!"); break;
     /* Stream start/end */
     case YAML_STREAM_START_EVENT: 
-      puts("STREAM START");
-      ++level;
       break;
     case YAML_STREAM_END_EVENT:   
-      puts("STREAM END");
-      --level; 
       break;
     /* Block delimeters */
     case YAML_DOCUMENT_START_EVENT: 
-      puts("<b>Start Document</b>"); 
-      ++level; 
       break;
     case YAML_DOCUMENT_END_EVENT:   
-      puts("<b>End Document</b>");   
-      --level; 
       break;
     case YAML_SEQUENCE_START_EVENT: 
-      puts("<b>Start Sequence</b>"); 
-      ++level;
       curr_ptr = curr_ptr->get_last_child();
       reading_sequence = true;
       break;
     case YAML_SEQUENCE_END_EVENT:   
-      puts("<b>End Sequence</b>");   
-      --level;
       curr_ptr = curr_ptr->get_parent();
       reading_sequence = false;
       reading_key = true;
       break;
     case YAML_MAPPING_START_EVENT:  
-      puts("<b>Start Mapping</b>");  
-      ++level;
       // The first mapping sets the current pointer to the dictionary root
       if(!curr_ptr) curr_ptr = &d;
       else curr_ptr = curr_ptr->get_last_child();
       reading_key = true;
       break;
     case YAML_MAPPING_END_EVENT:    
-      puts("<b>End Mapping</b>");    
-      --level;
       curr_ptr = curr_ptr->get_parent();
       break;
     /* Data */
     case YAML_ALIAS_EVENT:
-      printf("Got alias (anchor %s)\n", event.data.alias.anchor); 
       break;
-      
     case YAML_SCALAR_EVENT:
-      printf("Got a value at level %d (value %s)\n", level, event.data.scalar.value);
 
       // value is actually an unsigned char*, so we are assuming ASCII in this cast here
       std::string key(reinterpret_cast<const char*>(event.data.scalar.value));
