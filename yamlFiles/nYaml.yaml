@@ -1,14 +1,25 @@
-Global: 
-  Primary:
-    component:
-      type: volume 
-      friction_design_factor: 1.13
-  Secondary:
-    non_condensables:
-      - n2
-      - o2
-Local:
+Global: # Apply Everywhere
+  friction_design_factor: 1.13
+  interfacial_condesation_design_factor: 100.59
+Primary: # Named System
+  friction_design_factor: 2.8
+  design_factor: 8.7
+Secondary: # Named System
+  interfacial_condesation_design_factor: 200.54
+LOCCA_Injection: # Named System
+  arbitrary_special_design_factor: 0.5
+Local: # Apply to one component only or a list of components (number)
   component:
-    type: sngvol
     number: 104
-    friction_design_factor: 1.13
+    friction_design_factor: 1.23
+    design_factor2: 27.5
+  component:
+    number: 105
+    friction_design_factor: 2.23
+  component:
+    number: 
+      - 106
+      - 107
+      - 108
+   friction_design_factor: 2.2354343
+
