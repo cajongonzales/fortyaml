@@ -21,5 +21,5 @@ Local: # Apply to one component only or a list of components (number)
       - 106
       - 107
       - 108
-   friction_design_factor: 2.2354343
+    friction_design_factor: 2.2354343
 
