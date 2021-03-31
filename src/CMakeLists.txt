@@ -3,4 +3,4 @@ add_executable(fortBinding
 	       yamlEventReader.cpp
 	       )
 
-target_link_libraries(fortBinding yaml)
+target_link_libraries(fortBinding ${YAML_LIBRARIES})
