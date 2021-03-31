@@ -1,12 +1,11 @@
 add_executable(fort_yaml.exe 
                Dictionary.cpp
                Entry.cpp
-	       main.f90 
-	       )
+               main.f90 
+               )
 add_library(fort_yaml
             yamlEventReader.cpp
             )
-
 
 add_dependencies(fort_yaml.exe libyaml)
 
