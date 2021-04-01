@@ -5,15 +5,27 @@ project(FortYamlShackle Fortran C CXX)
 # Find the yaml module
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/tools/cmake/Modules")
 
-include(FetchContent) 
+include(ExternalProject)
 
-FetchContent_Declare(LibYaml
-	             GIT_REPOSITORY "https://github.com/yaml/libyaml"
-		     )
+# Set default ExternalProject root directory
+set(EXTERNALS_DIR ${CMAKE_BINARY_DIR}/ThirdParty)
 
-FetchContent_MakeAvailable(LibYaml)
-find_package(Yaml REQUIRED)
-include_directories(include ${YAML_INCLUDE_DIRS})
+# Add libyaml
+ExternalProject_Add(libyaml
+  PREFIX ${EXTERNALS_DIR}
+  GIT_REPOSITORY "https://github.com/yaml/libyaml"
+  CMAKE_ARGS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${EXTERNALS_DIR}/installed
+
+  # Log output
+  LOG_DOWNLOAD ON
+  LOG_CONFIGURE ON
+  LOG_BUILD ON
+  LOG_INSTALL ON
+)
+
+# Specify include dir
+include_directories(include ${EXTERNALS_DIR}/installed/include)
+
 add_subdirectory(src)
 install (FILES ${CMAKE_BINARY_DIR}/src/fortBinding 
  	 PERMISSIONS  GROUP_READ GROUP_EXECUTE 

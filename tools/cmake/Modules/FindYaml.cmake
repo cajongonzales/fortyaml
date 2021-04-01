@@ -46,6 +46,7 @@ else()
 
   find_path(YAML_INCLUDE_DIRS yaml.h)
   if(YAML_INCLUDE_DIRS)
+    message(STATUS "YAML_INCLUDE_DIRS: ${YAML_INCLUDE_DIRS}")
   else()
     set(YAML_FOUND FALSE)
   endif()
