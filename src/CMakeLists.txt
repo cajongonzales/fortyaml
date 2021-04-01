@@ -3,4 +3,6 @@ add_executable(fortBinding
 	       yamlEventReader.cpp
 	       )
 
-target_link_libraries(fortBinding ${YAML_LIBRARIES})
+add_dependencies(fortBinding libyaml)
+
+target_link_libraries(fortBinding ${EXTERNALS_DIR}/installed/lib/libyaml.a)
