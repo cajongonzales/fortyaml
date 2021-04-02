@@ -31,7 +31,7 @@ include_directories(include ${EXTERNALS_DIR}/installed/include)
 
 add_subdirectory(src)
 add_subdirectory(tests)
-install (FILES ${CMAKE_BINARY_DIR}/src/fortBinding 
+install (FILES ${CMAKE_BINARY_DIR}/src/fort_yaml 
  	 PERMISSIONS  GROUP_READ GROUP_EXECUTE 
          PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
 	 DESTINATION ${PROJECT_SOURCE_DIR}/bin)
