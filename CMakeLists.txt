@@ -6,7 +6,8 @@ project(FortYamlShackle Fortran C CXX)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/tools/cmake/Modules")
 
 include(ExternalProject)
-
+include(GoogleTest)
+include(CTest)
 # Set default ExternalProject root directory
 set(EXTERNALS_DIR ${CMAKE_BINARY_DIR}/ThirdParty)
 
@@ -23,10 +24,13 @@ ExternalProject_Add(libyaml
   LOG_INSTALL ON
 )
 
+find_package(GTest)
+
 # Specify include dir
 include_directories(include ${EXTERNALS_DIR}/installed/include)
 
 add_subdirectory(src)
+add_subdirectory(tests)
 install (FILES ${CMAKE_BINARY_DIR}/src/fortBinding 
  	 PERMISSIONS  GROUP_READ GROUP_EXECUTE 
          PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
