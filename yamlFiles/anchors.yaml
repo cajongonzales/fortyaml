@@ -1,10 +1,10 @@
 base: &base
-  name: Everyone has same name
+    name: Everyone has same name
 
 foo: &foo
-  <<: *base
-  age: 10
+    <<: *base
+    age: 10
 
 bar: &bar
-  <<: *base
-  age: 20
+    <<: *base
+    age: 20
