@@ -23,3 +23,104 @@ target_link_libraries(anchors.exe
 		      )
 add_dependencies(anchors.exe googletest libyaml)
 gtest_discover_tests(anchors.exe)
+
+add_executable(array.exe array.cpp)
+target_link_libraries(array.exe
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
+		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      )
+add_dependencies(array.exe googletest libyaml)
+gtest_discover_tests(array.exe)
+
+# Not currently supporting global tags
+#add_executable(globalTag.exe globalTag.cpp)
+#target_link_libraries(globalTag.exe
+#		      fort_yaml 
+#          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+#          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+#          pthread # Must be after gtest or you get a bunch of link errors
+#		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+#		      )
+#add_dependencies(globalTag.exe googletest libyaml)
+#gtest_discover_tests(globalTag.exe)
+
+add_executable(json.exe json.cpp)
+target_link_libraries(json.exe
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
+		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      )
+add_dependencies(json.exe googletest libyaml)
+gtest_discover_tests(json.exe)
+
+add_executable(mapping.exe mapping.cpp)
+target_link_libraries(mapping.exe
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
+		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      )
+add_dependencies(mapping.exe googletest libyaml)
+gtest_discover_tests(mapping.exe)
+
+add_executable(numbers.exe numbers.cpp)
+target_link_libraries(numbers.exe
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
+		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      )
+add_dependencies(numbers.exe googletest libyaml)
+gtest_discover_tests(numbers.exe)
+
+add_executable(strings.exe strings.cpp)
+target_link_libraries(strings.exe
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
+		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      )
+add_dependencies(strings.exe googletest libyaml)
+gtest_discover_tests(strings.exe)
+
+add_executable(tags.exe tags.cpp)
+target_link_libraries(tags.exe
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
+		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      )
+add_dependencies(tags.exe googletest libyaml)
+gtest_discover_tests(tags.exe)
+
+add_executable(yamlVersion.exe yamlVersion.cpp)
+target_link_libraries(yamlVersion.exe
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
+		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      )
+add_dependencies(yamlVersion.exe googletest libyaml)
+gtest_discover_tests(yamlVersion.exe)
+
+add_executable(nYaml.exe nYaml.cpp)
+target_link_libraries(nYaml.exe
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
+		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      )
+add_dependencies(nYaml.exe googletest libyaml)
+gtest_discover_tests(nYaml.exe)
+
