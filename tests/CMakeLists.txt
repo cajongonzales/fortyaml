@@ -15,7 +15,11 @@ include_directories(include ${EXTERNALS_DIR}/installed/include)
 
 add_executable(anchors.exe anchors.cpp)
 target_link_libraries(anchors.exe
-		      fort_yaml gtest gtest_main 
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
 		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
 		      )
+add_dependencies(anchors.exe googletest libyaml)
 gtest_discover_tests(anchors.exe)
