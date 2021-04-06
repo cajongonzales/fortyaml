@@ -11,19 +11,19 @@ class Entry;
 class Dictionary {
 
 public:
-    Dictionary();    
-    void set_key(const std::string& key);
+    Dictionary();
     void print() const;
+    void set_pair(const std::string& key, const Entry value);
+    Dictionary* add_child(const std::string& key);
+    std::vector<int>* add_vector(const std::string& key);
     Dictionary* get_parent() const;
-    Dictionary* get_last_child() const;
 
 private:
-    Dictionary(Dictionary* d);
+    Dictionary(Dictionary* dict);
     void print_spaces(int nspaces) const;
 
     std::map<std::string, Entry> map_;
     Dictionary* parent_;
-    Dictionary* last_child_;
 };
 
 #endif

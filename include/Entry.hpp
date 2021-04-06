@@ -2,6 +2,7 @@
 #define __ENTRY_HPP__
 
 #include "Dictionary.hpp"
+#include <string>
 #include<vector>
 
 class Dictionary;
@@ -22,9 +23,9 @@ union Data {
 class Entry {
 public:
     Entry();
+    Entry(const std::string& str);
     Entry(Dictionary* dict);
     Entry(std::vector<int>* vect);
-    Entry(const double dbl);
     
     ~Entry();
 
