@@ -55,7 +55,7 @@ int yamlEventReader(char *filePath)
     case YAML_SEQUENCE_START_EVENT: 
       if(!curr_ptr) curr_ptr = &d;
       else curr_ptr = curr_ptr->get_last_child();
-       reading_sequence = true;
+      reading_sequence = true;
       break;
     case YAML_SEQUENCE_END_EVENT:   
       curr_ptr = curr_ptr->get_parent();

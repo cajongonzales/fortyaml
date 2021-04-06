@@ -24,8 +24,6 @@ ExternalProject_Add(libyaml
   LOG_INSTALL ON
 )
 
-find_package(GTest)
-
 # Specify include dir
 include_directories(include ${EXTERNALS_DIR}/installed/include)
 
