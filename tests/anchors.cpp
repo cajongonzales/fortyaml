@@ -4,7 +4,7 @@
 #include "yamlEventReader.hpp"
 
 TEST(YamlAnchors, Anchors) {
-    std::string fileName = "../yamlFiles/anchors.yaml";
+    std::string fileName = "../../yamlFiles/anchors.yaml";
     yamlEventReader(fileName.c_str());
      
 }
