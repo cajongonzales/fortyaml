@@ -6,7 +6,7 @@
 
 extern "C" {
 
-int yamlEventReader(char *filePath)
+int yamlEventReader(const char *filePath)
 {
   printf("yamlEventReader %s\n", filePath);
 
