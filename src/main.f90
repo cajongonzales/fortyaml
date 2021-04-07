@@ -24,6 +24,12 @@ real(c_double) :: des_fact
 type Component
    integer :: number
    real :: friction_design_factor
+   real :: interfactial_design_factor
+   real :: design_factor1
+   real :: design_factor2
+   real :: design_factor3
+   real :: design_factor4
+   real :: design_factor5
    character(len=72) :: system
 end type Component   
 
