@@ -17,6 +17,9 @@ public:
     Dictionary* add_child(const std::string& key);
     std::vector<int>* add_vector(const std::string& key);
     Dictionary* get_parent() const;
+    double getVariableForComponent(int comp_num, 
+                                   const char* var_name, 
+                                   const char* sys_name) const;
 
 private:
     Dictionary(Dictionary* dict);
