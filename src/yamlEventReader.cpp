@@ -5,7 +5,7 @@
 
 extern "C" {
 
-int yamlEventReader(const char *filePath)
+const Dictionary* yamlEventReader(const char *filePath)
 {
   printf("yamlEventReader %s\n", filePath);
 
@@ -25,7 +25,7 @@ int yamlEventReader(const char *filePath)
   yaml_parser_set_input_file(&parser, fh);
 
   /* Create dictionary */
-  Dictionary dict;
+  Dictionary* dict = new Dictionary();
   Dictionary* curr_dict = nullptr;
   std::vector<int>* curr_vect = nullptr;
   DataType datatype;
@@ -70,7 +70,7 @@ int yamlEventReader(const char *filePath)
       datatype = DICTIONARY;
       // The first mapping sets the current pointer to the dictionary root
       if(!curr_dict) {
-        curr_dict = &dict;
+        curr_dict = dict;
       }
       else {
         curr_dict = curr_dict->add_child(last_key);
@@ -108,7 +108,7 @@ int yamlEventReader(const char *filePath)
       }
 
       printf("DICT BEGIN ---\n");
-      dict.print();
+      dict->print();
       printf("DICT END ---\n");
 
       break;
@@ -120,13 +120,13 @@ int yamlEventReader(const char *filePath)
   yaml_event_delete(&event);
   /* END new code */
 
-  dict.print();
+  dict->print();
 
   /* Cleanup */
   yaml_parser_delete(&parser);
 //  delete_all();
   fclose(fh);
-  return 0;
+  return dict;
 }
 
 } // end extern C

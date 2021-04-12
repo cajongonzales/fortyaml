@@ -29,4 +29,15 @@ private:
     Dictionary* parent_;
 };
 
+extern "C" {
+  Dictionary* dictionary_ctor_c();
+
+  void dictionary_dtor_c(Dictionary* dict);
+
+  double get_var_for_comp_c(const Dictionary* dict,
+                            int comp_num, 
+                            const char* var_name, 
+                            const char* sys_name);
+} // end extern C
+
 #endif

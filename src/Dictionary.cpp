@@ -113,3 +113,20 @@ void Dictionary::print_spaces(int nspaces) const
         }
     }
 }
+
+extern "C" {
+  Dictionary* dictionary_ctor_c() {
+    return new Dictionary();
+  }
+
+  void dictionary_dtor_c(Dictionary* dict) {
+    delete dict;
+  }
+
+  double get_var_for_comp_c(const Dictionary* dict,
+                            int comp_num, 
+                            const char* var_name, 
+                            const char* sys_name) {
+    return dict->getVariableForComponent(comp_num, var_name, sys_name);
+  }
+} // end extern C
