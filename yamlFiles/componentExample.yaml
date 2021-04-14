@@ -1,0 +1,26 @@
+# This file cannot contain tabs. If you get a parsing error check that first.
+Global: # Apply Everywhere
+  friction_design_factor: 1.13
+  interfacial_design_factor: 100.59
+Primary: # Named System
+  friction_design_factor: 2.8
+  design_factor1: 8.7
+Secondary: # Named System
+  interfacial_design_factor: 200.54
+  design_factor4: 5.01
+LOCCA_Injection: # Named System
+  design_factor3: 0.5
+Local: # Apply to one component only or a list of components (number)
+  pipe200: # Any name here will do as long as it is different. 
+    number: 200
+    friction_design_factor: 1.23
+    design_factor2: 27.5
+  sngvol122:
+    number: 122
+    friction_design_factor: 2.23
+  vols:
+    number: 
+      - 300
+      - 500
+    friction_design_factor: 2.2354343
+    design_factor5: 5000.0

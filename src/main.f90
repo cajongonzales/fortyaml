@@ -21,6 +21,7 @@ end interface
 type(c_ptr) :: dict_ptr
 
 real(c_double) :: des_fact
+
 type Component
    integer(C_INT) :: number
    real(C_DOUBLE) :: friction_design_factor
@@ -77,100 +78,137 @@ character(kind=c_char, len=*), parameter :: design_factor3 =  "design_factor3" /
 character(kind=c_char, len=*), parameter :: design_factor4 =  "design_factor4" //c_null_char
 character(kind=c_char, len=*), parameter :: design_factor5 =  "design_factor5" //c_null_char
 !call yaml_event_reader
-dict_ptr = yaml_event_reader(nYaml_file) 
+
+
+dict_ptr = yaml_event_reader(componentExample_file) 
+
+!dict_ptr = yaml_event_reader(gtag_file) !! Not currently supporting global tags
 
 ! Get some design factors
-des_fact = get_var_for_comp(dict_ptr, 105, "friction_design_factor", "LOCCA_INJECTION")
-write(*,*) des_fact
+des_fact = get_var_for_comp(dict_ptr, 200, "friction_design_factor", "LOCCA_Injection")
+write(*,*) des_fact ! Correct
 
+des_fact = get_var_for_comp(dict_ptr, 400, "design_factor3", "LOCCA_Injection")
+write(*,*) des_fact ! Correct
+
+des_fact = get_var_for_comp(dict_ptr, 400, "interfacial_design_factor", "LOCCA_Injection")
+write(*,*) des_fact ! Correct
+
+volume_g_sys_loc%design_factor5=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor5, volume_g_sys_loc%system)
+
+des_fact = get_var_for_comp(dict_ptr, 500, "design_factor5", " ")
+write(*,*) des_fact ! Wrong
+
+! Global Values only
 volume_g%number=100
 volume_g%system = C_NULL_CHAR
 
+! Primary System Values only
 volume_sys%number=111
-volume_sys%system="Primary"
+volume_sys%system="Primary"// c_null_char
+volume_sys%system=trim(volume_sys%system)
 
+! Global/Local Values only for 122
 volume_loc%number=122
-volume_loc%design_factor5 = 33.333
 volume_loc%system = C_NULL_CHAR
 
+! Secondary System and Local values for 200
 volume_sys_loc%number=200
-volume_sys_loc%system="Secondary"
+volume_sys_loc%system="Secondary"// c_null_char
+volume_sys%system=trim(volume_sys%system)
 
+! Global/Local values for 300
 volume_g_loc%number=300
+volume_g_loc%system = C_NULL_CHAR
+
+! Global/LOCCA_Injection System values
 volume_g_sys%number=400
-volume_g_sys%system="LOCCA"
+volume_g_sys%system="LOCCA_Injection"// c_null_char
+volume_sys%system=trim(volume_sys%system)
 
+! Global/Primary/Local values for 500
 volume_g_sys_loc%number=500
-volume_g_sys_loc%system="Primary"
+volume_g_sys_loc%system="Primary"// c_null_char
+volume_sys%system=trim(volume_sys%system)
 
-!call yaml_event_reader(gtag_file) 
+! 100
+volume_g%friction_design_factor=get_var_for_comp(dict_ptr,volume_g%number, friction_design_factor, volume_g%system) !1.13
+volume_g%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_g%number, interfactial_design_factor, volume_g%system) !100.59
+volume_g%design_factor1=get_var_for_comp(dict_ptr,volume_g%number, design_factor1, volume_g%system) ! 1.0
+volume_g%design_factor2=get_var_for_comp(dict_ptr,volume_g%number, design_factor2, volume_g%system) ! 1.0
+volume_g%design_factor3=get_var_for_comp(dict_ptr,volume_g%number, design_factor3, volume_g%system) ! 1.0
+volume_g%design_factor4=get_var_for_comp(dict_ptr,volume_g%number, design_factor4, volume_g%system) ! 1.0
+volume_g%design_factor5=get_var_for_comp(dict_ptr,volume_g%number, design_factor5, volume_g%system) ! 1.0
 
-do i = 1, numDesignFactors 
+! 111
+volume_sys%friction_design_factor=get_var_for_comp(dict_ptr,volume_sys%number, friction_design_factor, volume_sys%system) ! 2.8
+volume_sys%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_sys%number, interfactial_design_factor, & 
+                                                       volume_sys%system)                                                 ! 100.59
+volume_sys%design_factor1=get_var_for_comp(dict_ptr,volume_sys%number, design_factor1, volume_sys%system) ! 8.7
+volume_sys%design_factor2=get_var_for_comp(dict_ptr,volume_sys%number, design_factor2, volume_sys%system) ! 1.0
+volume_sys%design_factor3=get_var_for_comp(dict_ptr,volume_sys%number, design_factor3, volume_sys%system) ! 1.0
+volume_sys%design_factor4=get_var_for_comp(dict_ptr,volume_sys%number, design_factor4, volume_sys%system) ! 1.0
+volume_sys%design_factor5=get_var_for_comp(dict_ptr,volume_sys%number, design_factor5, volume_sys%system) ! 1.0
+     
+! 122	 
+volume_loc%friction_design_factor=get_var_for_comp(dict_ptr,volume_loc%number, friction_design_factor, volume_loc%system)  !2.23
+volume_loc%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_loc%number, interfactial_design_factor, &
+                                                       volume_loc%system)                                                  ! 100.59
+volume_loc%design_factor1=get_var_for_comp(dict_ptr,volume_loc%number, design_factor1, volume_loc%system) ! 1.0
+volume_loc%design_factor2=get_var_for_comp(dict_ptr,volume_loc%number, design_factor2, volume_loc%system) ! 1.0
+volume_loc%design_factor3=get_var_for_comp(dict_ptr,volume_loc%number, design_factor3, volume_loc%system) ! 1.0
+volume_loc%design_factor4=get_var_for_comp(dict_ptr,volume_loc%number, design_factor4, volume_loc%system) ! 1.0
+volume_loc%design_factor5=get_var_for_comp(dict_ptr,volume_loc%number, design_factor5, volume_loc%system) ! 1.0
 
-    volume_g%friction_design_factor=get_var_for_comp(dict_ptr,volume_g%number, friction_design_factor, volume_g%system)
-    volume_g%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_g%number, interfactial_design_factor, volume_g%system)
-    volume_g%design_factor1=get_var_for_comp(dict_ptr,volume_g%number, design_factor1, volume_g%system)
-    volume_g%design_factor2=get_var_for_comp(dict_ptr,volume_g%number, design_factor2, volume_g%system)
-    volume_g%design_factor3=get_var_for_comp(dict_ptr,volume_g%number, design_factor3, volume_g%system)
-    volume_g%design_factor4=get_var_for_comp(dict_ptr,volume_g%number, design_factor4, volume_g%system)
-    volume_g%design_factor5=get_var_for_comp(dict_ptr,volume_g%number, design_factor5, volume_g%system)
-    
-    volume_sys%friction_design_factor=get_var_for_comp(dict_ptr,volume_sys%number, friction_design_factor, volume_sys%system)
-    volume_sys%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_sys%number, interfactial_design_factor, & 
-	volume_sys%system)
-    volume_sys%design_factor1=get_var_for_comp(dict_ptr,volume_sys%number, design_factor1, volume_sys%system)
-    volume_sys%design_factor2=get_var_for_comp(dict_ptr,volume_sys%number, design_factor2, volume_sys%system)
-    volume_sys%design_factor3=get_var_for_comp(dict_ptr,volume_sys%number, design_factor3, volume_sys%system)
-    volume_sys%design_factor4=get_var_for_comp(dict_ptr,volume_sys%number, design_factor4, volume_sys%system)
-    volume_sys%design_factor5=get_var_for_comp(dict_ptr,volume_sys%number, design_factor5, volume_sys%system)
+! 200
+volume_sys_loc%friction_design_factor=get_var_for_comp(dict_ptr,volume_sys_loc%number, friction_design_factor, &            !1.23
+                                                       volume_sys_loc%system)
+volume_sys_loc%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_sys_loc%number, interfactial_design_factor, &
+                                                           volume_sys_loc%system)											! 200.54
+volume_sys_loc%design_factor1=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor1, volume_sys_loc%system) ! 1.0
+volume_sys_loc%design_factor2=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor2, volume_sys_loc%system) ! 27.5
+volume_sys_loc%design_factor3=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor3, volume_sys_loc%system) ! 1.0
+volume_sys_loc%design_factor4=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor4, volume_sys_loc%system) ! 5.01
+volume_sys_loc%design_factor5=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor5, volume_sys_loc%system) ! 1.0
 
-    volume_loc%friction_design_factor=get_var_for_comp(dict_ptr,volume_loc%number, friction_design_factor, volume_loc%system)
-    volume_loc%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_loc%number, interfactial_design_factor, &
-	volume_loc%system)
-    volume_loc%design_factor1=get_var_for_comp(dict_ptr,volume_loc%number, design_factor1, volume_loc%system)
-    volume_loc%design_factor2=get_var_for_comp(dict_ptr,volume_loc%number, design_factor2, volume_loc%system)
-    volume_loc%design_factor3=get_var_for_comp(dict_ptr,volume_loc%number, design_factor3, volume_loc%system)
-    volume_loc%design_factor4=get_var_for_comp(dict_ptr,volume_loc%number, design_factor4, volume_loc%system)
-    volume_loc%design_factor5=get_var_for_comp(dict_ptr,volume_loc%number, design_factor5, volume_loc%system)
+! 300
+volume_g_loc%friction_design_factor=get_var_for_comp(dict_ptr,volume_g_loc%number, friction_design_factor, volume_g_loc%system) !  2.2354343
+volume_g_loc%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_g_loc%number, interfactial_design_factor, &
+                                                         volume_g_loc%system)												! 100.59
+volume_g_loc%design_factor1=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor1, volume_g_loc%system) ! 1.0
+volume_g_loc%design_factor2=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor2, volume_g_loc%system) ! 1.0
+volume_g_loc%design_factor3=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor3, volume_g_loc%system) ! 1.0
+volume_g_loc%design_factor4=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor4, volume_g_loc%system) ! 1.0
+volume_g_loc%design_factor5=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor5, volume_g_loc%system) ! 5000.0
+ 
+! 400
+volume_g_sys%friction_design_factor=get_var_for_comp(dict_ptr,volume_g_sys%number, friction_design_factor, volume_g_sys%system) !1.13
+volume_g_sys%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_g_sys%number, interfactial_design_factor, & 
+                                                         volume_g_sys%system)												! 100.59
+volume_g_sys%design_factor1=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor1, volume_g_sys%system) ! 1.0
+volume_g_sys%design_factor2=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor2, volume_g_sys%system) ! 1.0
+volume_g_sys%design_factor3=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor3, volume_g_sys%system) ! 0.5
+volume_g_sys%design_factor4=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor4, volume_g_sys%system) ! 1.0
+volume_g_sys%design_factor5=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor5, volume_g_sys%system) ! 1.0
 
-    volume_sys_loc%friction_design_factor=get_var_for_comp(dict_ptr,volume_sys_loc%number, friction_design_factor, &
-	volume_sys_loc%system)
-    volume_sys_loc%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_sys_loc%number, interfactial_design_factor, &
-	volume_sys_loc%system)
-    volume_sys_loc%design_factor1=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor1, volume_sys_loc%system)
-    volume_sys_loc%design_factor2=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor2, volume_sys_loc%system)
-    volume_sys_loc%design_factor3=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor3, volume_sys_loc%system)
-    volume_sys_loc%design_factor4=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor4, volume_sys_loc%system)
-    volume_sys_loc%design_factor5=get_var_for_comp(dict_ptr,volume_sys_loc%number, design_factor5, volume_sys_loc%system)
+! 500
+volume_g_sys_loc%friction_design_factor=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, friction_design_factor, &         !  2.2354343
+                                                         volume_g_sys_loc%system)
+volume_g_sys_loc%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, interfactial_design_factor, &
+                                                             volume_g_sys_loc%system)										! 100.59
+volume_g_sys_loc%design_factor1=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor1, volume_g_sys_loc%system) ! 8.7
+volume_g_sys_loc%design_factor2=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor2, volume_g_sys_loc%system) ! 1.0
+volume_g_sys_loc%design_factor3=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor3, volume_g_sys_loc%system) ! 1.0
+volume_g_sys_loc%design_factor4=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor4, volume_g_sys_loc%system) ! 1.0
+volume_g_sys_loc%design_factor5=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor5, volume_g_sys_loc%system) ! 5000.0
 
-    volume_g_loc%friction_design_factor=get_var_for_comp(dict_ptr,volume_g_loc%number, friction_design_factor, volume_g_loc%system)
-    volume_g_loc%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_g_loc%number, interfactial_design_factor, &
-	volume_g_loc%system)
-    volume_g_loc%design_factor1=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor1, volume_g_loc%system)
-    volume_g_loc%design_factor2=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor2, volume_g_loc%system)
-    volume_g_loc%design_factor3=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor3, volume_g_loc%system)
-    volume_g_loc%design_factor4=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor4, volume_g_loc%system)
-    volume_g_loc%design_factor5=get_var_for_comp(dict_ptr,volume_g_loc%number, design_factor5, volume_g_loc%system)
-
-    volume_g_sys%friction_design_factor=get_var_for_comp(dict_ptr,volume_g_sys%number, friction_design_factor, volume_g_sys%system)
-    volume_g_sys%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_g_sys%number, interfactial_design_factor, &
-	volume_g_sys%system)
-    volume_g_sys%design_factor1=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor1, volume_g_sys%system)
-    volume_g_sys%design_factor2=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor2, volume_g_sys%system)
-    volume_g_sys%design_factor3=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor3, volume_g_sys%system)
-    volume_g_sys%design_factor4=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor4, volume_g_sys%system)
-    volume_g_sys%design_factor5=get_var_for_comp(dict_ptr,volume_g_sys%number, design_factor5, volume_g_sys%system)
-
-    volume_g_sys_loc%friction_design_factor=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, friction_design_factor, & 
-	volume_g_sys_loc%system)
-    volume_g_sys_loc%interfactial_design_factor=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, interfactial_design_factor, &
-	volume_g_sys_loc%system)
-    volume_g_sys_loc%design_factor1=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor1, volume_g_sys_loc%system)
-    volume_g_sys_loc%design_factor2=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor2, volume_g_sys_loc%system)
-    volume_g_sys_loc%design_factor3=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor3, volume_g_sys_loc%system)
-    volume_g_sys_loc%design_factor4=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor4, volume_g_sys_loc%system)
-    volume_g_sys_loc%design_factor5=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor5, volume_g_sys_loc%system)
-end do 
+write(*,*) "Volume_g= ", volume_g
+write(*,*) "Volume_sys= ", volume_sys
+write(*,*) "Volume_loc= ", volume_loc
+write(*,*) "Volume_sys_loc= ", volume_sys_loc
+write(*,*) "Volume_g_loc= ", volume_g_loc
+write(*,*) "Volume_g_sys= ", volume_g_sys
+write(*,*) "Volume_g_sys_loc= ", volume_g_sys_loc
 
 end program fortBinding  
 

@@ -1,6 +1,7 @@
 #include "Dictionary.hpp"
 #include <algorithm>
 #include <exception>
+#include <iostream>
 
 Dictionary::Dictionary()
 {
@@ -65,7 +66,7 @@ double Dictionary::getVariableForComponent(int comp_num,
                     }
 
                 }
-	    }
+	        }
         }
     }
 
@@ -86,9 +87,10 @@ double Dictionary::getVariableForComponent(int comp_num,
     if (global != map_.end()) {
         auto gmap = global->second.getDictionary()->map_;
         auto vptr = gmap.find(var_name);
-        if (vptr != gmap.end()) {
+		if (vptr != gmap.end()) {
             return vptr->second.getDouble();
         }
+	}
 	else {
 	// If you reached here the variable is not in the dictionary. The default value should be 1.0 for all design factors
 	   return 1.0;       
