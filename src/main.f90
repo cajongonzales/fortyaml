@@ -85,7 +85,7 @@ dict_ptr = yaml_event_reader(componentExample_file)
 !dict_ptr = yaml_event_reader(gtag_file) !! Not currently supporting global tags
 
 ! Get some design factors
-des_fact = get_var_for_comp(dict_ptr, 200, "friction_design_factor", "LOCCA_Injection")
+des_fact = get_var_for_comp(dict_ptr, 122, "friction_design_factor", "LOCCA_Injection")
 write(*,*) des_fact ! Correct
 
 des_fact = get_var_for_comp(dict_ptr, 400, "design_factor3", "LOCCA_Injection")
