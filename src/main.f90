@@ -44,6 +44,15 @@ type(Component) :: volume_g_sys_loc ! want global system and local
 !character(kind=c_char, len=*), parameter :: gtag_file = "../yamlFiles/global-tag.yaml" // c_null_char !! Not currently supporting
 !global tags
 
+character(kind=c_char, len=*), parameter :: nYaml_file = "../yamlFiles/nYaml.yaml" // c_null_char
+character(kind=c_char, len=*), parameter :: componentExample_file = "../yamlFiles/componentExample.yaml" // c_null_char
+character(kind=c_char, len=*), parameter :: friction_design_factor =  "friction_design_factor" //c_null_char
+character(kind=c_char, len=*), parameter :: interfactial_design_factor =  "interfactial_design_factor" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor1 =  "design_factor1" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor2 =  "design_factor2" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor3 =  "design_factor3" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor4 =  "design_factor4" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor5 =  "design_factor5" //c_null_char
 !call yaml_event_reader
 dict_ptr = yaml_event_reader(nYaml_file) 
 
@@ -67,38 +76,9 @@ write(*,*) des_fact, " should be 2.2354343"
 des_fact = get_var_for_comp(dict_ptr, 108, "jimbob", "Primary" // c_null_char)
 write(*,*) des_fact, " should be 1.0"
 
-des_fact = get_var_for_comp(dict_ptr, 105, "friction_design_factor", "LOCCA_INJECTION")
-write(*,*) des_fact
-character(kind=c_char, len=*), parameter :: nYaml_file = "../yamlFiles/nYaml.yaml" // c_null_char
-character(kind=c_char, len=*), parameter :: friction_design_factor =  "friction_design_factor" //c_null_char
-character(kind=c_char, len=*), parameter :: interfactial_design_factor =  "interfactial_design_factor" //c_null_char
-character(kind=c_char, len=*), parameter :: design_factor1 =  "design_factor1" //c_null_char
-character(kind=c_char, len=*), parameter :: design_factor2 =  "design_factor2" //c_null_char
-character(kind=c_char, len=*), parameter :: design_factor3 =  "design_factor3" //c_null_char
-character(kind=c_char, len=*), parameter :: design_factor4 =  "design_factor4" //c_null_char
-character(kind=c_char, len=*), parameter :: design_factor5 =  "design_factor5" //c_null_char
-!call yaml_event_reader
-
-
 dict_ptr = yaml_event_reader(componentExample_file) 
 
-!dict_ptr = yaml_event_reader(gtag_file) !! Not currently supporting global tags
-
-! Get some design factors
-des_fact = get_var_for_comp(dict_ptr, 122, "friction_design_factor", "LOCCA_Injection")
-write(*,*) des_fact ! Correct
-
-des_fact = get_var_for_comp(dict_ptr, 400, "design_factor3", "LOCCA_Injection")
-write(*,*) des_fact ! Correct
-
-des_fact = get_var_for_comp(dict_ptr, 400, "interfacial_design_factor", "LOCCA_Injection")
-write(*,*) des_fact ! Correct
-
-volume_g_sys_loc%design_factor5=get_var_for_comp(dict_ptr,volume_g_sys_loc%number, design_factor5, volume_g_sys_loc%system)
-
-des_fact = get_var_for_comp(dict_ptr, 500, "design_factor5", " ")
-write(*,*) des_fact ! Wrong
-
+! Adding attributes to the components
 ! Global Values only
 volume_g%number=100
 volume_g%system = C_NULL_CHAR

@@ -94,7 +94,6 @@ double Dictionary::getVariableForComponent(int comp_num,
 	else {
 	// If you reached here the variable is not in the dictionary. The default value should be 1.0 for all design factors
 	   return 1.0;       
-	}
     }
 
     // If here no local, system, or global found in yaml
