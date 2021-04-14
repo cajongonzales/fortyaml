@@ -11,7 +11,7 @@ interface
   function get_var_for_comp(dict, comp_num, var_name, sys_name) bind(C, name="get_var_for_comp_c")
     use iso_c_binding, only: c_char, c_double, c_int, c_ptr
     type(c_ptr), value :: dict
-    integer(c_int) :: comp_num
+    integer(c_int), value :: comp_num
     character(kind=c_char) :: var_name, sys_name
     real(c_double) :: get_var_for_comp
   end function get_var_for_comp
@@ -30,7 +30,24 @@ character(kind=c_char, len=*), parameter :: nYaml_file = "../yamlFiles/nYaml.yam
 dict_ptr = yaml_event_reader(nYaml_file) 
 
 ! Get some design factors
-des_fact = get_var_for_comp(dict_ptr, 105, "friction_design_factor", "LOCCA_INJECTION")
-write(*,*) des_fact
+des_fact = get_var_for_comp(dict_ptr, 102, "friction_design_factor", "" // c_null_char)
+write(*,*) des_fact, " should be 1.13"
+des_fact = get_var_for_comp(dict_ptr, 102, "friction_design_factor", "Secondary" // c_null_char)
+write(*,*) des_fact, " should be 1.13"
+des_fact = get_var_for_comp(dict_ptr, 102, "friction_design_factor", "Primary" // c_null_char)
+write(*,*) des_fact, " should be 2.8"
+des_fact = get_var_for_comp(dict_ptr, 104, "friction_design_factor", "Primary" // c_null_char)
+write(*,*) des_fact, " should be 1.23"
+des_fact = get_var_for_comp(dict_ptr, 105, "friction_design_factor", "Primary" // c_null_char)
+write(*,*) des_fact, " should be 2.23"
+des_fact = get_var_for_comp(dict_ptr, 106, "friction_design_factor", "Primary" // c_null_char)
+write(*,*) des_fact, " should be 2.2354343"
+des_fact = get_var_for_comp(dict_ptr, 107, "friction_design_factor", "Primary" // c_null_char)
+write(*,*) des_fact, " should be 2.2354343"
+des_fact = get_var_for_comp(dict_ptr, 108, "friction_design_factor", "Primary" // c_null_char)
+write(*,*) des_fact, " should be 2.2354343"
+des_fact = get_var_for_comp(dict_ptr, 108, "jimbob", "Primary" // c_null_char)
+write(*,*) des_fact, " should be 1.0"
+
 
 end program 

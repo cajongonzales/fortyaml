@@ -34,24 +34,35 @@ Dictionary* Dictionary::get_parent() const
 double Dictionary::getVariableForComponent(int comp_num, 
                                            const char* var_name, 
                                            const char* sys_name) const {
+
     // Search the local components for this number
     auto local = map_.find("Local");
     if (local != map_.end()) {
         auto lmap = local->second.getDictionary()->map_;
-        auto component = lmap.find("component");
-        if (component != lmap.end()) {
-            auto cmap = component->second.getDictionary()->map_;
+        for (auto component : lmap) {
+            auto cmap = component.second.getDictionary()->map_;
             auto numbers = cmap.find("number");
             if (numbers != cmap.end()) {
-                auto nlist = numbers->second.getVector();
+                if(numbers->second.isa(VECTOR)) {
+                    auto nlist = numbers->second.getVector();
 
-                // If the number has been found, look for the variable
-                if (std::find(nlist->begin(), nlist->end(), comp_num) != nlist->end())
-                {
-                    auto vptr = cmap.find(var_name);
-                    if (vptr != cmap.end()) {
-                        return vptr->second.getDouble();
+                    // If the number has been found, look for the variable
+                    if (std::find(nlist->begin(), nlist->end(), comp_num) != nlist->end())
+                    {
+                        auto vptr = cmap.find(var_name);
+                        if (vptr != cmap.end()) {
+                            return vptr->second.getDouble();
+                        }
                     }
+                }
+                else if(numbers->second.isa(DOUBLE)) {
+                    if(comp_num == numbers->second.getDouble()) {
+                        auto vptr = cmap.find(var_name);
+                        if (vptr != cmap.end()) {
+                            return vptr->second.getDouble();
+                        }
+                    }
+
                 }
             }
         }
@@ -79,7 +90,7 @@ double Dictionary::getVariableForComponent(int comp_num,
         }
     }
 
-    throw std::logic_error("Variable is not defined for this component");
+    return 1.0;
 }
 
 Dictionary::Dictionary(Dictionary *dict)
