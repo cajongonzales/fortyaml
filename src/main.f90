@@ -69,6 +69,13 @@ write(*,*) des_fact, " should be 1.0"
 des_fact = get_var_for_comp(dict_ptr, 105, "friction_design_factor", "LOCCA_INJECTION")
 write(*,*) des_fact
 character(kind=c_char, len=*), parameter :: nYaml_file = "../yamlFiles/nYaml.yaml" // c_null_char
+character(kind=c_char, len=*), parameter :: friction_design_factor =  "friction_design_factor" //c_null_char
+character(kind=c_char, len=*), parameter :: interfactial_design_factor =  "interfactial_design_factor" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor1 =  "design_factor1" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor2 =  "design_factor2" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor3 =  "design_factor3" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor4 =  "design_factor4" //c_null_char
+character(kind=c_char, len=*), parameter :: design_factor5 =  "design_factor5" //c_null_char
 
 volume_g%number=100
 volume_sys%number=111
@@ -95,7 +102,8 @@ do i = 1, numDesignFactors
     volume_g%design_factor5=get_variable_for_component(volume_g%number, design_factor5, volume_g%system)
     
     volume_sys%friction_design_factor=get_variable_for_component(volume_sys%number, friction_design_factor, volume_sys%system)
-    volume_sys%interfactial_design_factor=get_variable_for_component(volume_sys%number, interfactial_design_factor, volume_sys%system)
+    volume_sys%interfactial_design_factor=get_variable_for_component(volume_sys%number, interfactial_design_factor, & 
+	volume_sys%system)
     volume_sys%design_factor1=get_variable_for_component(volume_sys%number, design_factor1, volume_sys%system)
     volume_sys%design_factor2=get_variable_for_component(volume_sys%number, design_factor2, volume_sys%system)
     volume_sys%design_factor3=get_variable_for_component(volume_sys%number, design_factor3, volume_sys%system)
@@ -103,15 +111,18 @@ do i = 1, numDesignFactors
     volume_sys%design_factor5=get_variable_for_component(volume_sys%number, design_factor5, volume_sys%system)
 
     volume_loc%friction_design_factor=get_variable_for_component(volume_loc%number, friction_design_factor, volume_loc%system)
-    volume_loc%interfactial_design_factor=get_variable_for_component(volume_loc%number, interfactial_design_factor, volume_loc%system)
+    volume_loc%interfactial_design_factor=get_variable_for_component(volume_loc%number, interfactial_design_factor, &
+	volume_loc%system)
     volume_loc%design_factor1=get_variable_for_component(volume_loc%number, design_factor1, volume_loc%system)
     volume_loc%design_factor2=get_variable_for_component(volume_loc%number, design_factor2, volume_loc%system)
     volume_loc%design_factor3=get_variable_for_component(volume_loc%number, design_factor3, volume_loc%system)
     volume_loc%design_factor4=get_variable_for_component(volume_loc%number, design_factor4, volume_loc%system)
     volume_loc%design_factor5=get_variable_for_component(volume_loc%number, design_factor5, volume_loc%system)
 
-    volume_sys_loc%friction_design_factor=get_variable_for_component(volume_sys_loc%number, friction_design_factor, volume_sys_loc%system)
-    volume_sys_loc%interfactial_design_factor=get_variable_for_component(volume_sys_loc%number, interfactial_design_factor, volume_sys_loc%system)
+    volume_sys_loc%friction_design_factor=get_variable_for_component(volume_sys_loc%number, friction_design_factor, &
+	volume_sys_loc%system)
+    volume_sys_loc%interfactial_design_factor=get_variable_for_component(volume_sys_loc%number, interfactial_design_factor, &
+	volume_sys_loc%system)
     volume_sys_loc%design_factor1=get_variable_for_component(volume_sys_loc%number, design_factor1, volume_sys_loc%system)
     volume_sys_loc%design_factor2=get_variable_for_component(volume_sys_loc%number, design_factor2, volume_sys_loc%system)
     volume_sys_loc%design_factor3=get_variable_for_component(volume_sys_loc%number, design_factor3, volume_sys_loc%system)
@@ -119,7 +130,8 @@ do i = 1, numDesignFactors
     volume_sys_loc%design_factor5=get_variable_for_component(volume_sys_loc%number, design_factor5, volume_sys_loc%system)
 
     volume_g_loc%friction_design_factor=get_variable_for_component(volume_g_loc%number, friction_design_factor, volume_g_loc%system)
-    volume_g_loc%interfactial_design_factor=get_variable_for_component(volume_g_loc%number, interfactial_design_factor, volume_g_loc%system)
+    volume_g_loc%interfactial_design_factor=get_variable_for_component(volume_g_loc%number, interfactial_design_factor, &
+	volume_g_loc%system)
     volume_g_loc%design_factor1=get_variable_for_component(volume_g_loc%number, design_factor1, volume_g_loc%system)
     volume_g_loc%design_factor2=get_variable_for_component(volume_g_loc%number, design_factor2, volume_g_loc%system)
     volume_g_loc%design_factor3=get_variable_for_component(volume_g_loc%number, design_factor3, volume_g_loc%system)
@@ -127,15 +139,18 @@ do i = 1, numDesignFactors
     volume_g_loc%design_factor5=get_variable_for_component(volume_g_loc%number, design_factor5, volume_g_loc%system)
 
     volume_g_sys%friction_design_factor=get_variable_for_component(volume_g_sys%number, friction_design_factor, volume_g_sys%system)
-    volume_g_sys%interfactial_design_factor=get_variable_for_component(volume_g_sys%number, interfactial_design_factor, volume_g_sys%system)
+    volume_g_sys%interfactial_design_factor=get_variable_for_component(volume_g_sys%number, interfactial_design_factor, &
+	volume_g_sys%system)
     volume_g_sys%design_factor1=get_variable_for_component(volume_g_sys%number, design_factor1, volume_g_sys%system)
     volume_g_sys%design_factor2=get_variable_for_component(volume_g_sys%number, design_factor2, volume_g_sys%system)
     volume_g_sys%design_factor3=get_variable_for_component(volume_g_sys%number, design_factor3, volume_g_sys%system)
     volume_g_sys%design_factor4=get_variable_for_component(volume_g_sys%number, design_factor4, volume_g_sys%system)
     volume_g_sys%design_factor5=get_variable_for_component(volume_g_sys%number, design_factor5, volume_g_sys%system)
 
-    volume_g_sys_loc%friction_design_factor=get_variable_for_component(volume_g_sys_loc%number, friction_design_factor, volume_g_sys_loc%system)
-    volume_g_sys_loc%interfactial_design_factor=get_variable_for_component(volume_g_sys_loc%number, interfactial_design_factor, volume_g_sys_loc%system)
+    volume_g_sys_loc%friction_design_factor=get_variable_for_component(volume_g_sys_loc%number, friction_design_factor, & 
+	volume_g_sys_loc%system)
+    volume_g_sys_loc%interfactial_design_factor=get_variable_for_component(volume_g_sys_loc%number, interfactial_design_factor, &
+	volume_g_sys_loc%system)
     volume_g_sys_loc%design_factor1=get_variable_for_component(volume_g_sys_loc%number, design_factor1, volume_g_sys_loc%system)
     volume_g_sys_loc%design_factor2=get_variable_for_component(volume_g_sys_loc%number, design_factor2, volume_g_sys_loc%system)
     volume_g_sys_loc%design_factor3=get_variable_for_component(volume_g_sys_loc%number, design_factor3, volume_g_sys_loc%system)
