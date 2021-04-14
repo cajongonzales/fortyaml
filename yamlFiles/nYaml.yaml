@@ -16,7 +16,7 @@ Local: # Apply to one component only or a list of components (number)
   component2:
     number: 105
     friction_design_factor: 2.23
-  bob:
+  component3:
     number: 
       - 106
       - 107

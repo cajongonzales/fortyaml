@@ -37,6 +37,7 @@ double Dictionary::getVariableForComponent(int comp_num,
 
     // Search the local components for this number
     auto local = map_.find("Local");
+    // if local not found then find returns a pointer past the end of the map (map_.end)
     if (local != map_.end()) {
         auto lmap = local->second.getDictionary()->map_;
         for (auto component : lmap) {
@@ -64,7 +65,7 @@ double Dictionary::getVariableForComponent(int comp_num,
                     }
 
                 }
-            }
+	    }
         }
     }
 
@@ -79,7 +80,7 @@ double Dictionary::getVariableForComponent(int comp_num,
             }
         }
     }
-
+	      
     // Search the globals for this variable
     auto global = map_.find("Global");
     if (global != map_.end()) {
@@ -88,9 +89,14 @@ double Dictionary::getVariableForComponent(int comp_num,
         if (vptr != gmap.end()) {
             return vptr->second.getDouble();
         }
+	else {
+	// If you reached here the variable is not in the dictionary. The default value should be 1.0 for all design factors
+	   return 1.0;       
+	}
     }
 
-    return 1.0;
+    // If here no local, system, or global found in yaml
+   return 1.0;  
 }
 
 Dictionary::Dictionary(Dictionary *dict)
