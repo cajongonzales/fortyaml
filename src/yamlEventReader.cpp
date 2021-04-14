@@ -1,12 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h> // atoi, malloc
-#include <string.h> //strcpy
+#include <string> //strcpy
 #include <yaml.h>
 #include "Dictionary.hpp"
 
 extern "C" {
 
-int yamlEventReader(const char *filePath)
+const Dictionary* yamlEventReader(const char *filePath)
 {
   printf("yamlEventReader %s\n", filePath);
 
@@ -26,11 +25,12 @@ int yamlEventReader(const char *filePath)
   yaml_parser_set_input_file(&parser, fh);
 
   /* Create dictionary */
-  Dictionary d;
-  Dictionary* curr_ptr = nullptr;
-  
-  bool reading_key = false;
-  bool reading_sequence = false;
+  Dictionary* dict = new Dictionary();
+  Dictionary* curr_dict = nullptr;
+  std::vector<int>* curr_vect = nullptr;
+  DataType datatype;
+
+  std::string last_key;
 
   /* START new code */
   do {
@@ -44,48 +44,73 @@ int yamlEventReader(const char *filePath)
     case YAML_NO_EVENT: puts("No event!"); break;
     /* Stream start/end */
     case YAML_STREAM_START_EVENT: 
+      printf("YAML_STREAM_START_EVENT\n");
       break;
-    case YAML_STREAM_END_EVENT:   
+    case YAML_STREAM_END_EVENT: 
+      printf("YAML_STREAM_END_EVENT\n");  
       break;
     /* Block delimeters */
-    case YAML_DOCUMENT_START_EVENT: 
+    case YAML_DOCUMENT_START_EVENT:
+      printf("YAML_DOCUMENT_START_EVENT\n"); 
       break;
-    case YAML_DOCUMENT_END_EVENT:   
+    case YAML_DOCUMENT_END_EVENT:
+      printf("YAML_DOCUMENT_END_EVENT\n");   
       break;
-    case YAML_SEQUENCE_START_EVENT: 
-      if(!curr_ptr) curr_ptr = &d;
-      else curr_ptr = curr_ptr->get_last_child();
-      reading_sequence = true;
+    case YAML_SEQUENCE_START_EVENT:
+      printf("YAML_SEQUENCE_START_EVENT\n");
+      curr_vect = curr_dict->add_vector(last_key);
+      last_key.clear();
       break;
-    case YAML_SEQUENCE_END_EVENT:   
-      curr_ptr = curr_ptr->get_parent();
-      reading_sequence = false;
-      reading_key = true;
+    case YAML_SEQUENCE_END_EVENT:
+      printf("YAML_SEQUENCE_END_EVENT\n");
+      curr_vect = nullptr;
       break;
-    case YAML_MAPPING_START_EVENT:  
+    case YAML_MAPPING_START_EVENT:
+      printf("YAML_MAPPING_START_EVENT\n");
+      datatype = DICTIONARY;
       // The first mapping sets the current pointer to the dictionary root
-      if(!curr_ptr) curr_ptr = &d;
-      else curr_ptr = curr_ptr->get_last_child();
-      reading_key = true;
+      if(!curr_dict) {
+        curr_dict = dict;
+      }
+      else {
+        curr_dict = curr_dict->add_child(last_key);
+        last_key.clear();
+      } 
       break;
-    case YAML_MAPPING_END_EVENT:    
-      curr_ptr = curr_ptr->get_parent();
+    case YAML_MAPPING_END_EVENT:
+      printf("YAML_MAPPING_END_EVENT\n");
+      datatype = INVALID;
+      last_key.clear();
+      curr_dict = curr_dict->get_parent();
       break;
     /* Data */
     case YAML_ALIAS_EVENT:
+      printf("YAML_ALIAS_EVENT\n");
       break;
     case YAML_SCALAR_EVENT:
+      printf("YAML_SCALAR_EVENT\n");
 
       // value is actually an unsigned char*, so we are assuming ASCII in this cast here
       std::string key(reinterpret_cast<const char*>(event.data.scalar.value));
-      if(reading_sequence || reading_key) {
-        curr_ptr->set_key(key);
-        reading_key = false;
-      } else {
-        Dictionary* down_ptr = curr_ptr->get_last_child();
-        down_ptr->set_key(key);
-        reading_key = true;
+
+      printf("%s (last key %s)\n", event.data.scalar.value, last_key.c_str());
+
+      if(curr_vect) {
+        curr_vect->push_back(std::stoi(key));
+      } 
+      else if(!last_key.empty()) {
+        Entry e(key);
+        curr_dict->set_pair(last_key, e);
+        last_key.clear();
+      } 
+      else {
+        last_key = key;
       }
+
+      printf("DICT BEGIN ---\n");
+      dict->print();
+      printf("DICT END ---\n");
+
       break;
     }
 
@@ -95,13 +120,13 @@ int yamlEventReader(const char *filePath)
   yaml_event_delete(&event);
   /* END new code */
 
-  d.print();
+  dict->print();
 
   /* Cleanup */
   yaml_parser_delete(&parser);
 //  delete_all();
   fclose(fh);
-  return 0;
+  return dict;
 }
 
 } // end extern C

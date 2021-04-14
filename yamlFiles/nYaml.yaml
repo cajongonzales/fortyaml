@@ -9,14 +9,14 @@ Secondary: # Named System
 LOCCA_Injection: # Named System
   arbitrary_special_design_factor: 0.5
 Local: # Apply to one component only or a list of components (number)
-  component:
+  component1:
     number: 104
     friction_design_factor: 1.23
     design_factor2: 27.5
-  component:
+  component2:
     number: 105
     friction_design_factor: 2.23
-  component:
+  component3:
     number: 
       - 106
       - 107

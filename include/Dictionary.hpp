@@ -1,42 +1,43 @@
+#ifndef __DICTIONARY_HPP__
+#define __DICTIONARY_HPP__
+
+#include "Entry.hpp"
 #include <map>
 #include <string>
+#include <vector>
+
+class Entry;
 
 class Dictionary {
 
 public:
-    Dictionary() {}
-    
-    void set_key(const std::string& key) {
-        map_[key] = new Dictionary(this);
-        last_child_ = map_[key];
-    }
-
-    void print() const {
-        print_spaces(0);
-    }
-
-    Dictionary* get_parent() const {
-        return parent_;
-    }
-
-    Dictionary* get_last_child() const {
-        return last_child_;
-    }
+    Dictionary();
+    void print() const;
+    void set_pair(const std::string& key, const Entry value);
+    Dictionary* add_child(const std::string& key);
+    std::vector<int>* add_vector(const std::string& key);
+    Dictionary* get_parent() const;
+    double getVariableForComponent(int comp_num, 
+                                   const char* var_name, 
+                                   const char* sys_name) const;
 
 private:
-    Dictionary(Dictionary* d) {
-        parent_ = d;
-    }
+    Dictionary(Dictionary* dict);
+    void print_spaces(int nspaces) const;
 
-    void print_spaces(int nspaces) const {
-        for (auto const& pair : map_) {
-            for(int i=0; i<nspaces; i++) printf(" ");
-            printf("%s\n", pair.first.c_str());
-            pair.second->print_spaces(nspaces+2);
-        }
-    }
-
-    std::map<std::string, Dictionary*> map_;
+    std::map<std::string, Entry> map_;
     Dictionary* parent_;
-    Dictionary* last_child_;
 };
+
+extern "C" {
+  Dictionary* dictionary_ctor_c();
+
+  void dictionary_dtor_c(Dictionary* dict);
+
+  double get_var_for_comp_c(const Dictionary* dict,
+                            int comp_num, 
+                            const char* var_name, 
+                            const char* sys_name);
+} // end extern C
+
+#endif
