@@ -1,9 +1,15 @@
 #ifndef __INPUT_PARSER_HPP__
 #define __INPUT_PARSER_HPP__
 
+#include "yaml-cpp/yaml.h"
+
 class InputParser {
 public:
   InputParser(const char* filepath);
+
+  const YAML::Node& get_node() const;
+private:
+  YAML::Node node_;
 };
 
 extern "C" {

@@ -1,11 +1,12 @@
 #include <iostream>
 #include "yamlEventReader.hpp"
-#include "yaml-cpp/yaml.h"
 
 InputParser::InputParser(const char* filepath) {
-  YAML::Node config = YAML::LoadFile(filepath);
+  node_ = YAML::LoadFile(filepath);
+}
 
-  std::cout << config << std::endl;
+const YAML::Node& InputParser::get_node() const {
+  return node_;
 }
 
 extern "C" {
