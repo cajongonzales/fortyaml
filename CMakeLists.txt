@@ -12,9 +12,9 @@ include(CTest)
 set(EXTERNALS_DIR ${CMAKE_BINARY_DIR}/ThirdParty)
 
 # Add libyaml
-ExternalProject_Add(libyaml
+ExternalProject_Add(yaml-cpp
   PREFIX ${EXTERNALS_DIR}
-  GIT_REPOSITORY "https://github.com/yaml/libyaml"
+  GIT_REPOSITORY "https://github.com/jbeder/yaml-cpp"
   CMAKE_ARGS -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${EXTERNALS_DIR}/installed
 
   # Log output

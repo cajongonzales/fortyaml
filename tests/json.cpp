@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 #include <string>
-#include "Dictionary.hpp"
 #include "yamlEventReader.hpp"
 
 TEST(YamlJson, Json) {
     std::string fileName = "../../yamlFiles/json.yaml";
     yamlEventReader(fileName.c_str());
-     
+    
+    EXPECT_TRUE(false);
 }
 	
 int main(int argc, char* argv[]) {

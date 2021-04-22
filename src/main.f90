@@ -8,7 +8,7 @@ interface
     type(c_ptr) :: yaml_event_reader
   end function yaml_event_reader 
 
-  function get_var_for_comp(dict, comp_num, var_name, sys_name) bind(C, name="get_var_for_comp_c")
+  function get_var_for_comp(dict, comp_num, var_name, sys_name) bind(C, name="get_var_for_comp")
     use iso_c_binding, only: c_char, c_double, c_int, c_ptr
     type(c_ptr), value :: dict
     integer(c_int), value :: comp_num
