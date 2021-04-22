@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 #include <string>
-#include "Dictionary.hpp"
 #include "yamlEventReader.hpp"
 
 TEST(YamlVersion, YamlVersion) {
     std::string fileName = "../../yamlFiles/yaml-version.yaml";
     yamlEventReader(fileName.c_str());
-     
+    
+    EXPECT_TRUE(false);
 }
 	
 int main(int argc, char* argv[]) {

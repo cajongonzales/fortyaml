@@ -19,9 +19,9 @@ target_link_libraries(anchors.exe
           ${EXTERNALS_DIR}/installed/lib/libgtest.a 
           ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
           pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(anchors.exe googletest libyaml)
+add_dependencies(anchors.exe googletest yaml-cpp)
 gtest_discover_tests(anchors.exe)
 
 add_executable(array.exe array.cpp)
@@ -30,9 +30,9 @@ target_link_libraries(array.exe
           ${EXTERNALS_DIR}/installed/lib/libgtest.a 
           ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
           pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(array.exe googletest libyaml)
+add_dependencies(array.exe googletest yaml-cpp)
 gtest_discover_tests(array.exe)
 
 # Not currently supporting global tags
@@ -53,9 +53,9 @@ target_link_libraries(json.exe
           ${EXTERNALS_DIR}/installed/lib/libgtest.a 
           ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
           pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(json.exe googletest libyaml)
+add_dependencies(json.exe googletest yaml-cpp)
 gtest_discover_tests(json.exe)
 
 add_executable(mapping.exe mapping.cpp)
@@ -64,9 +64,9 @@ target_link_libraries(mapping.exe
           ${EXTERNALS_DIR}/installed/lib/libgtest.a 
           ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
           pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(mapping.exe googletest libyaml)
+add_dependencies(mapping.exe googletest yaml-cpp)
 gtest_discover_tests(mapping.exe)
 
 add_executable(numbers.exe numbers.cpp)
@@ -75,9 +75,9 @@ target_link_libraries(numbers.exe
           ${EXTERNALS_DIR}/installed/lib/libgtest.a 
           ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
           pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(numbers.exe googletest libyaml)
+add_dependencies(numbers.exe googletest yaml-cpp)
 gtest_discover_tests(numbers.exe)
 
 add_executable(strings.exe strings.cpp)
@@ -86,9 +86,9 @@ target_link_libraries(strings.exe
           ${EXTERNALS_DIR}/installed/lib/libgtest.a 
           ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
           pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(strings.exe googletest libyaml)
+add_dependencies(strings.exe googletest yaml-cpp)
 gtest_discover_tests(strings.exe)
 
 add_executable(tags.exe tags.cpp)
@@ -97,9 +97,9 @@ target_link_libraries(tags.exe
           ${EXTERNALS_DIR}/installed/lib/libgtest.a 
           ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
           pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(tags.exe googletest libyaml)
+add_dependencies(tags.exe googletest yaml-cpp)
 gtest_discover_tests(tags.exe)
 
 add_executable(yamlVersion.exe yamlVersion.cpp)
@@ -108,9 +108,9 @@ target_link_libraries(yamlVersion.exe
           ${EXTERNALS_DIR}/installed/lib/libgtest.a 
           ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
           pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(yamlVersion.exe googletest libyaml)
+add_dependencies(yamlVersion.exe googletest yaml-cpp)
 gtest_discover_tests(yamlVersion.exe)
 
 add_executable(nYaml.exe nYaml.cpp)
@@ -119,8 +119,8 @@ target_link_libraries(nYaml.exe
           ${EXTERNALS_DIR}/installed/lib/libgtest.a 
           ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
           pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml.a
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(nYaml.exe googletest libyaml)
+add_dependencies(nYaml.exe googletest yaml-cpp)
 gtest_discover_tests(nYaml.exe)
 
