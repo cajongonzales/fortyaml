@@ -2,11 +2,11 @@ program fortBinding
 use iso_c_binding, only: C_CHAR, C_DOUBLE, C_NULL_CHAR, C_INT, C_PTR, C_DOUBLE
 implicit none
 interface 
-  function yaml_event_reader(filePath) bind(C, name="yamlEventReader")
+  function input_parser_ctor(filePath) bind(C, name="input_parser_ctor")
     use iso_c_binding, only: c_char, c_ptr
     character(kind=c_char) :: filePath(*)
-    type(c_ptr) :: yaml_event_reader
-  end function yaml_event_reader 
+    type(c_ptr) :: input_parser_ctor
+  end function input_parser_ctor
 
   function get_var_for_comp(dict, comp_num, var_name, sys_name) bind(C, name="get_var_for_comp")
     use iso_c_binding, only: c_char, c_double, c_int, c_ptr
@@ -54,7 +54,7 @@ character(kind=c_char, len=*), parameter :: design_factor3 =  "design_factor3" /
 character(kind=c_char, len=*), parameter :: design_factor4 =  "design_factor4" //c_null_char
 character(kind=c_char, len=*), parameter :: design_factor5 =  "design_factor5" //c_null_char
 !call yaml_event_reader
-dict_ptr = yaml_event_reader(nYaml_file) 
+dict_ptr = input_parser_ctor(nYaml_file) 
 
 ! Get some design factors
 des_fact = get_var_for_comp(dict_ptr, 102, "friction_design_factor", "" // c_null_char)
@@ -76,7 +76,7 @@ write(*,*) des_fact, " should be 2.2354343"
 des_fact = get_var_for_comp(dict_ptr, 108, "jimbob", "Primary" // c_null_char)
 write(*,*) des_fact, " should be 1.0"
 
-dict_ptr = yaml_event_reader(componentExample_file) 
+dict_ptr = input_parser_ctor(componentExample_file) 
 
 ! Adding attributes to the components
 ! Global Values only

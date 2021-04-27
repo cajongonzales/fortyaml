@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include <string>
-#include "yamlEventReader.hpp"
+#include "InputParser.hpp"
 
 TEST(YamlGlobalTag, GlobalTag) {
     std::string fileName = "../../yamlFiles/global-tag.yaml";
-    yamlEventReader(fileName.c_str());
+    input_parser_ctor(fileName.c_str());
     
     EXPECT_TRUE(false);
 }
