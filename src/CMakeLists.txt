@@ -2,7 +2,7 @@ add_executable(fort_yaml.exe
                main.f90 
                )
 add_library(fort_yaml
-            yamlEventReader.cpp
+            InputParser.cpp
             )
 
 add_dependencies(fort_yaml yaml-cpp)

@@ -35,6 +35,17 @@ target_link_libraries(array.exe
 add_dependencies(array.exe googletest yaml-cpp)
 gtest_discover_tests(array.exe)
 
+add_executable(componentExample.exe componentExample.cpp)
+target_link_libraries(componentExample.exe
+		      fort_yaml 
+          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+          pthread # Must be after gtest or you get a bunch of link errors
+		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
+		      )
+add_dependencies(componentExample.exe googletest yaml-cpp)
+gtest_discover_tests(componentExample.exe)
+
 # Not currently supporting global tags
 #add_executable(globalTag.exe globalTag.cpp)
 #target_link_libraries(globalTag.exe

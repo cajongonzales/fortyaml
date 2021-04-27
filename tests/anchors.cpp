@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include <string>
-#include "yamlEventReader.hpp"
+#include "InputParser.hpp"
 
 TEST(YamlAnchors, Anchors) {
     std::string fileName = "../../yamlFiles/anchors.yaml";
-    InputParser* parser = yamlEventReader(fileName.c_str());
+    InputParser* parser = input_parser_ctor(fileName.c_str());
     
     const YAML::Node& node = parser->get_node();
 
