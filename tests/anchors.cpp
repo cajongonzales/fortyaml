@@ -4,7 +4,11 @@
 
 TEST(YamlAnchors, Anchors) {
     std::string fileName = "../../yamlFiles/anchors.yaml";
-    yamlEventReader(fileName.c_str());
+    InputParser* parser = yamlEventReader(fileName.c_str());
+    
+    const YAML::Node& node = parser->get_node();
+
+    std::cout << node << std::endl;
     
     EXPECT_TRUE(false);
 }
