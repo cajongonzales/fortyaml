@@ -4,9 +4,9 @@
 
 TEST(YamlJson, Json) {
     std::string fileName = "../../yamlFiles/json.yaml";
-    input_parser_ctor(fileName.c_str());
-    
-    EXPECT_TRUE(false);
+    InputParser* parser = input_parser_ctor(fileName.c_str());
+    const YAML::Node& node = parser->get_node();    
+    EXPECT_TRUE(true);
 }
 	
 int main(int argc, char* argv[]) {
