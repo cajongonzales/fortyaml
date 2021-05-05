@@ -13,16 +13,18 @@ ExternalProject_Add(googletest
 
 include_directories(include ${EXTERNALS_DIR}/installed/include)
 
-add_executable(anchors.exe anchors.cpp)
-target_link_libraries(anchors.exe
-		      fort_yaml 
-          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
-          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
-          pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
-		      )
-add_dependencies(anchors.exe googletest yaml-cpp)
-gtest_discover_tests(anchors.exe)
+## Anchors not currently supported with yaml-cpp
+
+#add_executable(anchors.exe anchors.cpp)
+#target_link_libraries(anchors.exe
+#		      fort_yaml 
+#          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+#          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+#          pthread # Must be after gtest or you get a bunch of link errors
+#		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
+#		      )
+#add_dependencies(anchors.exe googletest yaml-cpp)
+#gtest_discover_tests(anchors.exe)
 
 add_executable(array.exe array.cpp)
 target_link_libraries(array.exe
@@ -110,19 +112,21 @@ target_link_libraries(tags.exe
           pthread # Must be after gtest or you get a bunch of link errors
 		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
 		      )
-add_dependencies(tags.exe googletest yaml-cpp)
-gtest_discover_tests(tags.exe)
 
-add_executable(yamlVersion.exe yamlVersion.cpp)
-target_link_libraries(yamlVersion.exe
-		      fort_yaml 
-          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
-          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
-          pthread # Must be after gtest or you get a bunch of link errors
-		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
-		      )
-add_dependencies(yamlVersion.exe googletest yaml-cpp)
-gtest_discover_tests(yamlVersion.exe)
+## Tags do not work with yaml-cpp
+#add_dependencies(tags.exe googletest yaml-cpp)
+#gtest_discover_tests(tags.exe)
+
+#add_executable(yamlVersion.exe yamlVersion.cpp)
+#target_link_libraries(yamlVersion.exe
+#		      fort_yaml 
+#          ${EXTERNALS_DIR}/installed/lib/libgtest.a 
+#          ${EXTERNALS_DIR}/installed/lib/libgtest_main.a
+#          pthread # Must be after gtest or you get a bunch of link errors
+#		      ${EXTERNALS_DIR}/installed/lib/libyaml-cpp.a
+#		      )
+#add_dependencies(yamlVersion.exe googletest yaml-cpp)
+#gtest_discover_tests(yamlVersion.exe)
 
 add_executable(nYaml.exe nYaml.cpp)
 target_link_libraries(nYaml.exe

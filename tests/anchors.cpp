@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <gtest/gtest-spi.h>
 #include <string>
 #include "InputParser.hpp"
 
@@ -7,10 +8,11 @@ TEST(YamlAnchors, Anchors) {
     InputParser* parser = input_parser_ctor(fileName.c_str());
     
     const YAML::Node& node = parser->get_node();
-
-    std::cout << node << std::endl;
-    
-    EXPECT_TRUE(false);
+    EXPECT_EQ(node.size(), 3);
+    EXPECT_EQ(node["base"]["name"].as<std::string>(), "Everyone has same name");
+    EXPECT_TRUE(node["foo"].IsMap());
+    EXPECT_EQ(node["foo"]["age"].as<int>(), 10);
+    EXPECT_EQ(node["bar"]["age"].as<int>(), 20);
 }
 	
 int main(int argc, char* argv[]) {

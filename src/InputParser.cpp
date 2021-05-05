@@ -1,12 +1,18 @@
 #include <iostream>
 #include <vector>
 #include "InputParser.hpp"
-
+#include <string>
+//#define NDEBUG
+#include <cassert>
 InputParser::InputParser(const char* filepath) {
   node_ = YAML::LoadFile(filepath);
 }
 
 double InputParser::getVariableForComponent(int comp_num, const char* var_name, const char* sys_name) const {
+  std::list<std::string> vname_list = { "design_factor2",
+                                        "design_factor3",
+                                        "friction_design_factor"
+                                      }; 
   // For all local components...
   const YAML::Node& local = node_["Local"];
 
@@ -30,6 +36,11 @@ double InputParser::getVariableForComponent(int comp_num, const char* var_name, 
     // If the variable is defined for this component...
     if(found_it && comp->second[var_name].IsDefined()) {
       // ...return its value
+      auto list_it = std::find(vname_list.begin(), vname_list.end(), var_name);
+      if (list_it == vname_list.end()){
+        std::cout<<"Design factor: " << var_name  << " not found" << std::endl;
+//        assert(list_it != vname_list.end());
+      }        
       return comp->second[var_name].as<double>();
     }
   }
@@ -39,6 +50,10 @@ double InputParser::getVariableForComponent(int comp_num, const char* var_name, 
   if(node_[sys_name].IsDefined()) {
     const YAML::Node& system = node_[sys_name];
     if(system[var_name].IsDefined() && system[var_name].IsScalar()) {
+      auto list_it = std::find(vname_list.begin(), vname_list.end(), var_name);
+      if (list_it == vname_list.end()){
+        std::cout<<"Design factor: " << var_name  << " not found" << std::endl;
+      }
       return system[var_name].as<double>();
     } 
   }
@@ -46,6 +61,10 @@ double InputParser::getVariableForComponent(int comp_num, const char* var_name, 
   // Search the globals for this variable
   const YAML::Node& global = node_["Global"];
   if(global[var_name].IsDefined() && global[var_name].IsScalar()) {
+    auto list_it = std::find(vname_list.begin(), vname_list.end(), var_name);
+    if (list_it == vname_list.end()){
+      std::cout<<"Design factor: " << var_name  << " not found" << std::endl;
+    }
     return global[var_name].as<double>();
   } 
 
